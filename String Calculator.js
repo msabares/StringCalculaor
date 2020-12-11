@@ -42,9 +42,6 @@ function Add(numbers) {
 
   //Test the Regex to see if any matches
   if (new RegExp(controlCodeRegex).test(numbers)) {
-    //Use the Control Code Regex to get our Delimiter Regex
-    //let delimiter = '/[^' + numbers.match(controlCodeRegex)[0] + ']/g';
-    //console.log(delimiter);
     let delimiter = new RegExp('[' + numbers.match(controlCodeRegex)[0] + ']');
     numbers = numbers
       .match(/\n(.*)/g)[0] //Get the other half of the string that's not the Control Code
