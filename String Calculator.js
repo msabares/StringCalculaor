@@ -15,7 +15,7 @@ let testCases = [
   //Question 3
   { test: '//;\n1;3;4', expected: 8 },
   { test: '//$\n1$2$3', expected: 6 },
-  { test: '//@\n2@3@8@', expected: 13 },
+  { test: '//@\n2@3@8@#5', expected: 13 },
   //Question 4
   {
     test: '//@\n2@-3@8@5@-10@-2',
@@ -27,18 +27,25 @@ let testCases = [
   { test: '2, 1001', expected: 2 },
   { test: '2, 1, 500', expected: 503 },
   //Bonus 2
-  { test: '//***\n1***2***3', expected: 6 },
+  { test: '//***\n1***2**3', expected: 6 },
   //Bonus 3
   { test: '//$,@\n1$2@3', expected: 6 },
+  //Bonus 4
+  { test: '//$,@,***\n1$2@3***2,3', expected: 11 },
+
+  //Technically passes Bonus Q2-4, but only because it takes all the deliminters in the Control Code and splits on any occurance of them, doesn't actually look for an exact match
 ];
 
 function Add(numbers) {
-  let controlCodeRegex = /(?<=\/\/)(.*?)(?=\n)/g; //Regex to look for the Control Code
+  //Regex to look for the Control Code
+  let controlCodeRegex = /(?<=\/\/)(.*?)(?=\n)/g;
 
   //Test the Regex to see if any matches
   if (new RegExp(controlCodeRegex).test(numbers)) {
     //Use the Control Code Regex to get our Delimiter Regex
-    let delimiter = new RegExp('[' + numbers.match(controlCodeRegex)[0] + ']+');
+    //let delimiter = '/[^' + numbers.match(controlCodeRegex)[0] + ']/g';
+    //console.log(delimiter);
+    let delimiter = new RegExp('[' + numbers.match(controlCodeRegex)[0] + ']');
     numbers = numbers
       .match(/\n(.*)/g)[0] //Get the other half of the string that's not the Control Code
       .split(delimiter);
